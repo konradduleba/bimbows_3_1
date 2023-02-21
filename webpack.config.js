@@ -51,4 +51,7 @@ module.exports = {
       template: "./public/index.html",
     }),
   ],
+  optimization: {
+    splitChunks: false,
+  },
 };
