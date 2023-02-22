@@ -1,57 +1,15 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { ModuleFederationPlugin } = require("webpack").container;
-const deps = require("./package.json").dependencies;
+const { merge } = require("webpack-merge");
+const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 
-module.exports = {
-  entry: "./src/index.ts",
-  mode: "development",
-  devServer: {
-    port: 3041,
-    open: true,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
-  },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js"],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx|tsx|ts)$/,
-        loader: "ts-loader",
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-    ],
-  },
-  plugins: [
-    new ModuleFederationPlugin({
-      name: "bimbows_3_1",
-      filename: "remoteEntry.js",
-      exposes: {
-        // expose each component
-        "./App": "./src/App",
-        // "./EmployeeList": "./src/components/EmployeeList",
-      },
-      shared: {
-        ...deps,
-        react: { singleton: true, eager: true, requiredVersion: deps.react },
-        "react-dom": {
-          singleton: true,
-          eager: true,
-          requiredVersion: deps["react-dom"],
-        },
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
-    }),
-  ],
-  optimization: {
-    splitChunks: false,
-  },
+module.exports = (webpackConfigEnv, argv) => {
+  const defaultConfig = singleSpaDefaults({
+    orgName: "dulcon",
+    projectName: "bimbows-3-1",
+    webpackConfigEnv,
+    argv,
+  });
+
+  return merge(defaultConfig, {
+    // modify the webpack config however you'd like to by adding to this object
+  });
 };
