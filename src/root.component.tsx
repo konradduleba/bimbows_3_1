@@ -1,3 +1,7 @@
 export default function Root(props) {
-  return <section>{props.name} is mounted!</section>;
+  return (
+    <div>
+      <p>Bimbows 3.1 tu będzie</p>
+    </div>
+  );
 }
