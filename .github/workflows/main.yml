@@ -17,8 +17,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
-      - name: Update scoper registry
-        run: npm config set '@konradduleba:registry' https://node.bit.cloud
+      - name: Init bit.cloud
+        run: |
+          echo "Adding bit.cloud to npm registry"
+          npm config set @konradduleba:registry=https://node.bit.cloud
+          npm config set @teambit:registry=https://node.bit.cloud
+          npm config set //node.bit.cloud/:_authToken ${BIT_TOKEN}
+          echo "Completed adding bit.cloud to npm registry"
       - name: Install modules
         run: npm ci
       - name: Build application
