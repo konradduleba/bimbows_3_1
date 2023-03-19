@@ -22,7 +22,7 @@ jobs:
           echo "Adding bit.cloud to npm registry"
           npm config set @konradduleba:registry=https://node.bit.cloud
           npm config set @teambit:registry=https://node.bit.cloud
-          npm config set //node.bit.cloud/:_authToken ${BIT_TOKEN}
+          npm config set //node.bit.cloud/:_authToken ${{ secrets.BIT_TOKEN }}
           echo "Completed adding bit.cloud to npm registry"
       - name: Install modules
         run: npm ci
